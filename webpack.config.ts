@@ -11,8 +11,9 @@ const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'))
 const config: Configuration = {
   mode: 'development',
   entry: {
+    main: './src/main/index.ts',
     preload: './src/preload/index.ts',
-    main: './src/renderer/src/main.tsx'
+    renderer: './src/renderer/src/main.tsx'
   },
   output: {
     path: path.resolve(__dirname, 'webpack'),
@@ -24,6 +25,7 @@ const config: Configuration = {
     rules: [
       {
         test: /\.[jt]sx?$/,
+        exclude: /node_modules\/langchain\/dist\/chat_models\/universal\.js/,
         loader: 'esbuild-loader',
         options: {
           target: 'es2024',
@@ -38,6 +40,19 @@ const config: Configuration = {
             }
           }
         }
+      },
+      {
+        test: /node_modules\/langchain\/dist\/chat_models\/universal\.js/,
+        use: [
+          {
+            loader: 'string-replace-loader',
+            options: {
+              strict: true,
+              search: 'await import(config.package)',
+              replace: 'await import(/* webpackIgnore: true */ config.package)'
+            }
+          }
+        ]
       },
       {
         test: /\.css$/,
@@ -71,10 +86,35 @@ const config: Configuration = {
       'process': path.resolve(__dirname, 'src/preload/web-process.ts')
     },
     fallback: {
-      events: require.resolve('events/')
+      url: require.resolve("url/"),
+      util: require.resolve("util/"),
+      assert: require.resolve("assert/"),
+      buffer: require.resolve("buffer/"),
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+      os: require.resolve("os-browserify/browser"),
+      path: require.resolve("path-browserify"),
+      fs: require.resolve("wasabio"),
+      events: require.resolve('events/'),
+      vm: require.resolve('vm-browserify'),
+      async_hooks: false,
+      child_process: false,
+      deepagents: false
     }
   },
   plugins: [
+    new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+      resource.request = resource.request.replace(/^node:/, '')
+    }),
+    new webpack.NormalModuleReplacementPlugin(/^fs\/promises$/, (resource) => {
+      resource.request = path.resolve(__dirname, 'src/preload/web-filesystem.ts')
+    }),
+    new webpack.NormalModuleReplacementPlugin(/^node:fs\/promises$/, (resource) => {
+      resource.request = path.resolve(__dirname, 'src/preload/web-filesystem.ts')
+    }),
+    new webpack.NormalModuleReplacementPlugin(/^crypto$/, (resource) => {
+      resource.request = path.resolve(__dirname, 'src/preload/web-crypto.ts')
+    }),
     new webpack.DefinePlugin({
       __APP_VERSION__: JSON.stringify(pkg.version),
       'process.env': JSON.stringify({})
@@ -84,7 +124,7 @@ const config: Configuration = {
     }),
     new HtmlWebpackPlugin({
       template: './src/renderer/index.html',
-      chunks: ['preload', 'main']
+      chunks: ['main', 'preload', 'renderer']
     })
   ],
   parallelism: 100,

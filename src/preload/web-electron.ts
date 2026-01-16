@@ -66,3 +66,15 @@ export const contextBridge = {
     }
   }
 }
+
+export const BrowserWindow = {}
+
+export const shell = {}
+
+export const nativeImage = {}
+
+export const ipcMain = {}
+
+export const dialog = {}
+
+export const app = {}
