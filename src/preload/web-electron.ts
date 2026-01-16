@@ -1,4 +1,4 @@
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events'
 
 export default {}
 
@@ -41,17 +41,17 @@ Object.defineProperty(ipcRenderer, 'send', {
 Object.defineProperty(ipcRenderer, 'invoke', {
   value: async (channel: string, ...args: unknown[]): Promise<unknown> => {
     console.log(`ipcRenderer.invoke called with channel: ${channel}`, ...args)
-    
+
     // Return mock data based on channel
     if (mockResponses.hasOwnProperty(channel)) {
       return mockResponses[channel]
     }
-    
+
     // Default: return empty array for list operations, null for others
     if (channel.includes(':list')) {
       return []
     }
-    
+
     return null
   }
 })

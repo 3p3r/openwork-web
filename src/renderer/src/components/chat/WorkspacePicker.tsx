@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Folder, Check, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
@@ -60,7 +56,13 @@ export function WorkspacePicker(): React.JSX.Element {
   }, [currentThreadId, setWorkspacePath, setWorkspaceFiles])
 
   async function handleSelectFolder(): Promise<void> {
-    await selectWorkspaceFolder(currentThreadId, setWorkspacePath, setWorkspaceFiles, setLoading, setOpen)
+    await selectWorkspaceFolder(
+      currentThreadId,
+      setWorkspacePath,
+      setWorkspaceFiles,
+      setLoading,
+      setOpen
+    )
   }
 
   const folderName = workspacePath?.split('/').pop()
@@ -114,7 +116,8 @@ export function WorkspacePicker(): React.JSX.Element {
           ) : (
             <div className="space-y-2">
               <p className="text-[11px] text-muted-foreground leading-relaxed">
-                Select a folder for the agent to work in. The agent will read and write files directly to this location.
+                Select a folder for the agent to work in. The agent will read and write files
+                directly to this location.
               </p>
               <Button
                 variant="default"

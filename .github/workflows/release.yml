@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
 # Ensure only one release runs at a time
 concurrency:
@@ -50,8 +50,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          registry-url: "https://registry.npmjs.org"
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm ci
@@ -79,20 +79,16 @@ jobs:
             ### Installation
 
             ```bash
-            # Run directly
-            npx openwork
-
-            # Or install globally
-            npm install -g openwork
-            openwork
+            # Run directly with webpack
+            npm run webpack:dev
             ```
 
-            Requires Node.js 18+. Electron is installed automatically as a dependency.
+            Requires Node.js 18+.
 
             ### Links
 
-            - [Documentation](https://github.com/langchain-ai/openwork#readme)
-            - [npm package](https://www.npmjs.com/package/openwork)
+            - [Documentation](https://github.com/3p3r/openwork-web#readme)
+            - [npm package](https://www.npmjs.com/package/openwork-web)
           draft: false
           prerelease: ${{ contains(steps.version.outputs.version, '-') }}
         env:

@@ -63,9 +63,7 @@ const config: Configuration = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [
-                  '@tailwindcss/postcss'
-                ]
+                plugins: ['@tailwindcss/postcss']
               }
             }
           }
@@ -82,19 +80,19 @@ const config: Configuration = {
     alias: {
       '@': path.resolve(__dirname, 'src/renderer/src'),
       '@renderer': path.resolve(__dirname, 'src/renderer/src'),
-      'electron': path.resolve(__dirname, 'src/preload/web-electron.ts'),
-      'process': path.resolve(__dirname, 'src/preload/web-process.ts')
+      electron: path.resolve(__dirname, 'src/preload/web-electron.ts'),
+      process: path.resolve(__dirname, 'src/preload/web-process.ts')
     },
     fallback: {
-      url: require.resolve("url/"),
-      util: require.resolve("util/"),
-      assert: require.resolve("assert/"),
-      buffer: require.resolve("buffer/"),
-      crypto: require.resolve("crypto-browserify"),
-      stream: require.resolve("stream-browserify"),
-      os: require.resolve("os-browserify/browser"),
-      path: require.resolve("path-browserify"),
-      fs: require.resolve("wasabio"),
+      url: require.resolve('url/'),
+      util: require.resolve('util/'),
+      assert: require.resolve('assert/'),
+      buffer: require.resolve('buffer/'),
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      os: require.resolve('os-browserify/browser'),
+      path: require.resolve('path-browserify'),
+      fs: require.resolve('wasabio'),
       events: require.resolve('events/'),
       vm: require.resolve('vm-browserify'),
       async_hooks: false,

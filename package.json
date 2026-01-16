@@ -1,7 +1,7 @@
 {
-  "name": "openwork",
-  "version": "0.1.0",
-  "description": "A tactical agent interface for deepagentsjs",
+  "name": "openwork-web",
+  "version": "1.0.0",
+  "description": "A tactical web agent interface for deepagentsjs",
   "main": "./out/main/index.js",
   "files": [
     "out/",
@@ -13,24 +13,24 @@
   "bin": {
     "openwork": "./bin/cli.js"
   },
-  "author": "LangChain",
+  "author": "3p3r",
   "license": "MIT",
-  "homepage": "https://github.com/langchain-ai/openwork",
+  "homepage": "https://github.com/3p3r/openwork-web",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/langchain-ai/openwork.git"
+    "url": "git+https://github.com/3p3r/openwork-web.git"
   },
   "bugs": {
-    "url": "https://github.com/langchain-ai/openwork/issues"
+    "url": "https://github.com/3p3r/openwork-web/issues"
   },
   "keywords": [
     "ai",
     "agent",
-    "electron",
+    "browser",
     "deepagents",
     "langchain",
     "langgraph",
-    "desktop"
+    "web"
   ],
   "engines": {
     "node": ">=18"

@@ -380,9 +380,11 @@ export const useAppStore = create<AppState>((set, get) => ({
           subagents: wasCurrentThread ? [] : state.subagents,
           // Clean up tab state for deleted thread and restore new thread's tab state if switching
           tabStateByThread: remainingTabState,
-          openFiles: wasCurrentThread ? (newThreadTabState?.openFiles || []) : state.openFiles,
-          activeTab: wasCurrentThread ? (newThreadTabState?.activeTab || 'agent') : state.activeTab,
-          fileContents: wasCurrentThread ? (newThreadTabState?.fileContents || {}) : state.fileContents
+          openFiles: wasCurrentThread ? newThreadTabState?.openFiles || [] : state.openFiles,
+          activeTab: wasCurrentThread ? newThreadTabState?.activeTab || 'agent' : state.activeTab,
+          fileContents: wasCurrentThread
+            ? newThreadTabState?.fileContents || {}
+            : state.fileContents
         }
       })
     } catch (error) {

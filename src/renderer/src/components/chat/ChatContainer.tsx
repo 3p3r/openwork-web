@@ -178,22 +178,25 @@ export function ChatContainer({ threadId }: ChatContainerProps): React.JSX.Eleme
   })
 
   // Handle approval decision - use stream.submit with resume command
-  const handleApprovalDecision = useCallback(async (decision: 'approve' | 'reject' | 'edit') => {
-    if (!pendingApproval) return
+  const handleApprovalDecision = useCallback(
+    async (decision: 'approve' | 'reject' | 'edit') => {
+      if (!pendingApproval) return
 
-    // Clear pending approval first
-    setPendingApproval(null)
+      // Clear pending approval first
+      setPendingApproval(null)
 
-    // Submit with a resume command - the transport will send to agent:resume
-    try {
-      await stream.submit(
-        null, // No message needed for resume
-        { command: { resume: { decision } } }
-      )
-    } catch (err) {
-      console.error('[ChatContainer] Resume command failed:', err)
-    }
-  }, [pendingApproval, setPendingApproval, stream])
+      // Submit with a resume command - the transport will send to agent:resume
+      try {
+        await stream.submit(
+          null, // No message needed for resume
+          { command: { resume: { decision } } }
+        )
+      } catch (err) {
+        console.error('[ChatContainer] Resume command failed:', err)
+      }
+    },
+    [pendingApproval, setPendingApproval, stream]
+  )
 
   // Sync todos from stream state
   const agentValues = stream.values as AgentStreamValues | undefined
@@ -270,7 +273,8 @@ export function ChatContainer({ threadId }: ChatContainerProps): React.JSX.Eleme
             content: typeof streamMsg.content === 'string' ? streamMsg.content : '',
             tool_calls: streamMsg.tool_calls,
             // Include tool_call_id and name for tool messages
-            ...(role === 'tool' && streamMsg.tool_call_id && { tool_call_id: streamMsg.tool_call_id }),
+            ...(role === 'tool' &&
+              streamMsg.tool_call_id && { tool_call_id: streamMsg.tool_call_id }),
             ...(role === 'tool' && streamMsg.name && { name: streamMsg.name }),
             created_at: new Date()
           }
@@ -312,7 +316,8 @@ export function ChatContainer({ threadId }: ChatContainerProps): React.JSX.Eleme
           content: typeof streamMsg.content === 'string' ? streamMsg.content : '',
           tool_calls: streamMsg.tool_calls,
           // Include tool_call_id and name for tool messages
-          ...(role === 'tool' && streamMsg.tool_call_id && { tool_call_id: streamMsg.tool_call_id }),
+          ...(role === 'tool' &&
+            streamMsg.tool_call_id && { tool_call_id: streamMsg.tool_call_id }),
           ...(role === 'tool' && streamMsg.name && { name: streamMsg.name }),
           created_at: new Date()
         }
@@ -502,9 +507,9 @@ export function ChatContainer({ threadId }: ChatContainerProps): React.JSX.Eleme
             )}
 
             {displayMessages.map((message) => (
-              <MessageBubble 
-                key={message.id} 
-                message={message} 
+              <MessageBubble
+                key={message.id}
+                message={message}
                 toolResults={toolResults}
                 pendingApproval={pendingApproval}
                 onApprovalDecision={handleApprovalDecision}
@@ -570,7 +575,13 @@ export function ChatContainer({ threadId }: ChatContainerProps): React.JSX.Eleme
                     <Square className="size-4" />
                   </Button>
                 ) : (
-                  <Button type="submit" variant="default" size="icon" disabled={!input.trim()} className="rounded-md">
+                  <Button
+                    type="submit"
+                    variant="default"
+                    size="icon"
+                    disabled={!input.trim()}
+                    className="rounded-md"
+                  >
                     <Send className="size-4" />
                   </Button>
                 )}
@@ -584,7 +595,6 @@ export function ChatContainer({ threadId }: ChatContainerProps): React.JSX.Eleme
           </div>
         </form>
       </div>
-
     </div>
   )
 }
